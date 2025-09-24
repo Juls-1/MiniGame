@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     public NavMeshAgent Agent { get => agent; }
@@ -13,6 +15,10 @@ public class Enemy : MonoBehaviour
     public Path path;
     private GameObject player;
     public GameObject Player { get => player; }
+
+    [Header("Enemy Info")]
+    [SerializeField] private int HP=100;
+
 
     [Header("Sight Values")]
     public float sightDistance = 20f;
@@ -23,6 +29,7 @@ public class Enemy : MonoBehaviour
     public Transform gunBarrel;
     [Range(0.1f, 10f)]
     public float fireRate;
+
 
 
     // Start is called before the first frame update
@@ -56,7 +63,7 @@ public class Enemy : MonoBehaviour
                     {
                         if(hitInfo.transform.gameObject == player)
                         {
-                            Debug.DrawRay(ray.origin, ray.direction * sightDistance);
+                            UnityEngine.Debug.DrawRay(ray.origin, ray.direction * sightDistance);
                             return true;
                         }
                     }
@@ -65,5 +72,15 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        HP -= damage;
+        UnityEngine.Debug.Log("Enemy HP: " + HP);
+        if (HP <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

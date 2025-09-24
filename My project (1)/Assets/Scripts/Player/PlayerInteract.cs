@@ -39,6 +39,11 @@ public class PlayerInteract : MonoBehaviour
                 {
                         interactable.BaseInteract();
                 }
+        
+            }
+            else
+            {
+                UnityEngine.Debug.Log("prueba1");
             }
         }
     }
